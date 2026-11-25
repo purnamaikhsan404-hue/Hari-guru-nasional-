@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selamat Hari Guru — Ibu Alpaini</title>
+  <style>
+    :root {
+      --pink-bg-1: #ffd6e7;
+      --pink-bg-2: #ffb3d1;
+      --pink-bg-3: #ffe8f2;
+      --card-bg: rgba(255, 255, 255, 0.86);
+      --text-main: #4a152b;
+      --accent: #c92a6d;
+      --border-soft: rgba(201, 42, 109, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: radial-gradient(circle at top left, var(--pink-bg-3), transparent 55%),
+                  linear-gradient(135deg, var(--pink-bg-1) 0%, var(--pink-bg-2) 100%);
+      color: var(--text-main);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Wadah bunga jatuh di latar belakang */
+    .flower-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+    }
+
+    .flower {
+      position: absolute;
+      top: -60px;
+      user-select: none;
+      animation: fall linear infinite;
+      filter: drop-shadow(0 3px 6px rgba(180, 40, 100, 0.15));
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 0.95;
+      }
+      90% {
+        opacity: 0.95;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Kartu ucapan utama */
+    .card {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 660px;
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 2px solid var(--border-soft);
+      border-radius: 26px;
+      padding: 36px 30px;
+      box-shadow: 0 18px 45px rgba(178, 34, 96, 0.16);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 999px;
+      background: rgba(201, 42, 109, 0.12);
+      color: var(--accent);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .floral-divider {
+      font-size: 1.5rem;
+      letter-spacing: 8px;
+      margin-bottom: 18px;
+    }
+
+    .typewriter-box {
+      min-height: 170px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    #typewriter {
+      font-size: clamp(1.12rem, 2.5vw, 1.35rem);
+      line-height: 1.8;
+      font-weight: 500;
+      white-space: pre-line;
+      color: var(--text-main);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 2.5px;
+      height: 1.15em;
+      background-color: var(--accent);
+      margin-left: 3px;
+      vertical-align: -0.15em;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    .actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: none;
+      border-radius: 999px;
+      padding: 10px 20px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: var(--accent);
+      color: #ffffff;
+      box-shadow: 0 6px 16px rgba(201, 42, 109, 0.25);
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      background: #a61e58;
+      transform: translateY(-1px);
+    }
+
+    button:active {
+      transform: translateY(1px);
+    }
+
+    @media (max-width: 480px) {
+      .card {
+        padding: 28px 20px;
+        border-radius: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="flower-layer" id="flowerLayer" aria-hidden="true"></div>
+
+  <main class="card">
+    <div class="badge">Hari Guru • Kelas X-4</div>
+    <div class="floral-divider">🌸 🌷 🌺 🌷 🌸</div>
+
+    <div class="typewriter-box">
+      <div>
+        <span id="typewriter"></span><span class="cursor" id="cursor"></span>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" id="replayBtn">Ulangi Pesan</button>
+    </div>
+  </main>
+
+  <script>
+    const message =
+      "SELAMAT HARI GURU UNTUK IBU ALPAINI 🌸\n\n" +
+      "Terima kasih telah mengajarkan kami banyak hal dan mendidik kami dengan baik. " +
+      "Terima kasih juga telah menjadi wali kelas yang baik untuk X-4.\n\n" +
+      "Kami sayang Ibu! 💖";
+
+    const typewriterEl = document.getElementById("typewriter");
+    const cursorEl = document.getElementById("cursor");
+    const replayBtn = document.getElementById("replayBtn");
+    const flowerLayer = document.getElementById("flowerLayer");
+
+    let typingTimer = null;
+
+    function startTyping() {
+      clearTimeout(typingTimer);
+      typewriterEl.textContent = "";
+      cursorEl.style.display = "inline-block";
+      let index = 0;
+
+      function typeNextChar() {
+        if (index < message.length) {
+          typewriterEl.textContent += message.charAt(index);
+          index++;
+          const currentChar = message.charAt(index - 1);
+          const delay = currentChar === "\n" ? 220 : currentChar === "." || currentChar === "!" ? 140 : 42;
+          typingTimer = setTimeout(typeNextChar, delay);
+        }
+      }
+
+      typeNextChar();
+    }
+
+    function createFlowers() {
+      const icons = ["🌸", "🌷", "🌺", "🌼", "🌹"];
+      const totalFlowers = 24;
+
+      for (let i = 0; i < totalFlowers; i++) {
+        const flower = document.createElement("div");
+        flower.className = "flower";
+        flower.textContent = icons[i % icons.length];
+        flower.style.left = `${Math.random() * 100}%`;
+        flower.style.fontSize = `${18 + Math.random() * 18}px`;
+        flower.style.animationDuration = `${6 + Math.random() * 7}s`;
+        flower.style.animationDelay = `${Math.random() * 6}s`;
+        flowerLayer.appendChild(flower);
+      }
+    }
+
+    replayBtn.addEventListener("click", startTyping);
+
+    createFlowers();
+    window.addEventListener("DOMContentLoaded", startTyping);
+  </script>
+</body>
+</html>
